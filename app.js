@@ -1,7 +1,7 @@
 const express = require('express'); 
 const mongoose = require('mongoose');
-const helmet = require('helmet');
 const cors = require('cors');
+const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 
@@ -23,28 +23,22 @@ const limiter = rateLimit({
 })
 app.use(limiter);
 
-app.use(helmet({
-  crossOriginResourcePolicy: {policy: 'same-site'},
-  crossOriginEmbedderPolicy: {policy: 'require-corp'},
-}));
-
 const corsOption = {
   'origin' : '*',
   'allowedHeaders' : 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization',
   'methods' : 'GET, POST, PUT, DELETE, PATCH, OPTIONS'
-  
 }
 app.use(cors(corsOption))
-/*app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
-    next();
-  });*/
+
+app.use(helmet({
+  crossOriginResourcePolicy: {policy: 'same-site'},
+  crossOriginEmbedderPolicy: {policy: 'require-corp'},
+}));
 
 const bookRoutes = require('./routes/book');
 const userRoutes = require('./routes/user');
 app.use('/api/books', bookRoutes);
 app.use('/api/auth', userRoutes);
 app.use('/images', express.static(path.join(__dirname,'./images')));
+
 module.exports = app; 

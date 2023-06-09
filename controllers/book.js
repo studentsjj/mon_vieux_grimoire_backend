@@ -6,7 +6,7 @@ exports.createBook = (req, res, next) => {
     if (req.file) {
         try {
             if (!fs.existsSync('./images')) {
-                // check if directory exists. Do so synchronously.
+                // check if directory exists. 
                 fs.mkdirSync('./images');
             }
             const { buffer, originalname } = req.file;
@@ -23,7 +23,7 @@ exports.createBook = (req, res, next) => {
             const book = new Book({
                 ...bookObject,
                 userId: req.auth.userId,
-                imageUrl: `${req.protocol}://${req.get('host')}/images/${ref}`,
+                imageUrl: `${req.protocol}://${req.get('host')}/images/${ref}`,   
             });
 
             book.save()
@@ -32,7 +32,7 @@ exports.createBook = (req, res, next) => {
                 )
                 .catch((error) => res.status(400).json({ error }));
         } catch (error) {
-            console.log(error);
+            res.status(400).json({error});
         }
     } else {
         res.status(400).json({ message: 'fichier image manquant'});
@@ -97,7 +97,6 @@ exports.modifyBook = (req, res, next) => {
             res.status(400).json({ error });
         });
     };
-
 
 exports.deleteBook = (req, res, next) => {
     Book.findOne({ _id: req.params.id })
