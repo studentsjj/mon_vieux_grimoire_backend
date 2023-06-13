@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 
-mongoose.connect(process.env.CONNECT_MONGODB,
+mongoose.connect('mongodb+srv://marielouise04:Ocmongodb2023@clusteroc.fy4ooxv.mongodb.net/?retryWrites=true&w=majority',
 { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
